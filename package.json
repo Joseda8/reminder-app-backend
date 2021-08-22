@@ -6,10 +6,11 @@
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Daily Code Buffer",
+  "author": "Joseda8",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "cors": "^2.8.5",
     "debug": "4.1.1",
     "express": "^4.17.1",
     "neo4j-driver": "^4.2.1",
