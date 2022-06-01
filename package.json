@@ -1,5 +1,5 @@
 {
-  "name": "node-tutorial",
+  "name": "reminder-app-backend",
   "version": "1.0.0",
   "description": "Node Js Tutorial",
   "main": "app.js",
@@ -17,5 +17,14 @@
     "neo4j-driver": "^4.2.1",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joseda8/reminder-app-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Joseda8/reminder-app-backend/issues"
+  },
+  "homepage": "https://github.com/Joseda8/reminder-app-backend#readme"
 }
