@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/Joseda8/reminder-app-backend/issues"
   },
-  "homepage": "https://github.com/Joseda8/reminder-app-backend#readme"
+  "homepage": "https://github.com/Joseda8/reminder-app-backend#readme",
+  "engines": {
+    "node": "14.16.1"
+  }
 }
