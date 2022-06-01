@@ -1,8 +1,9 @@
+const mongodb = require("mongodb");
 const MongoClient = require("mongodb").MongoClient;
 
 const db_mongo = "mongodb+srv://joseda8:joseda8@cluster0.hdfou.mongodb.net/BattleCounter?retryWrites=true&w=majority";
-const dbName = "BattleCounter";
-const dbCollectionName = "counters";
+const dbName = "GenesisHealthCheck";
+const dbCollectionName = "notes";
 
 function do_query(query, info, dataCallback){
 
@@ -21,35 +22,17 @@ function do_query(query, info, dataCallback){
                 });
                 break;
 
-                case "PLUS_JOSE":                    
-                dbo.collection(dbCollectionName).updateOne({ name: "jose"},  { $inc: { counter: 1 } }, function(err, result) {
-                    if (err) throw err;
-                    dataCallback(result);
-                    db.close();
+            case "NEW_NOTE":
+                dbo.collection(dbCollectionName).insertOne(info, (error, result) => {
+                    if(error){dataCallback(error);}
+                    else{dataCallback(result.insertedId.toString());}
                 });
                 break;
 
-                case "PLUS_ANA":                    
-                dbo.collection(dbCollectionName).updateOne({ name: "ana"},  { $inc: { counter: 1 } }, function(err, result) {
-                    if (err) throw err;
-                    dataCallback(result);
-                    db.close();
-                });
-                break;
-
-                case "LESS_JOSE":                    
-                dbo.collection(dbCollectionName).updateOne({ name: "jose"},  { $inc: { counter: -1 } }, function(err, result) {
-                    if (err) throw err;
-                    dataCallback(result);
-                    db.close();
-                });
-                break;
-
-                case "LESS_ANA":                    
-                dbo.collection(dbCollectionName).updateOne({ name: "ana"},  { $inc: { counter: -1 } }, function(err, result) {
-                    if (err) throw err;
-                    dataCallback(result);
-                    db.close();
+            case "REMOVE_NOTE":
+                dbo.collection(dbCollectionName).deleteOne({_id: new mongodb.ObjectID(info)}, (error, result) => {
+                    if(error){dataCallback(error);}
+                    else{dataCallback(200);}
                 });
                 break;
 
@@ -58,33 +41,7 @@ function do_query(query, info, dataCallback){
           }
 
       });
-      
-    // MongoClient.connect(db_mongo, function lambda(err, dbInstance) {
 
-    //     if (err) {
-    //         console.log(`[MongoDB connection] ERROR: ${err}`);
-    //         dataCallback(err);
-
-    //     } else {
-    //         const dbObject = dbInstance.db(dbName);
-
-    //         switch(query) {
-
-    //             case "PLUS_JOSE":                    
-    //                 dbCollection = dbObject.collection(dbCollectionName); 
-    //                 dbCollection.find({}, { projection: {_id:0}} ).toArray(function(error, result) {
-    //                     if(error){console.log(error);}
-    //                     dataCallback(result);
-    //                 });
-    //                 break;
-
-    //             default:
-    //                 dataCallback("Consulta no encontrada");
-    //           }
-        
-    //         dbInstance.close();
-    //     }
-    // });
 }
 
 

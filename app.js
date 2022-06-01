@@ -2,47 +2,32 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+app.use(express.json({limit: '50mb'}));
 
 const db_mongo = require("./mongo");
 
-const pokemon_list = require("./pokemon_list");
-
 app.get('/', (req, res) => {
-    db_mongo.do_query("FIND_ALL", null, (data) => {        
+    db_mongo.do_query("FIND_ALL", null, (data) => {
         res.send({
-            jose: data[0].counter,
-            ana: data[1].counter,
+            notes: data
         });
     });
 })
 
-app.get('/plus1_jose', (req, res) => {
-    db_mongo.do_query("PLUS_JOSE", null, (data) => {
+app.post("/new_post", (req, res) => {
+    const new_post = req.body;
+    new_post.date = new_post.date;
+    db_mongo.do_query("NEW_NOTE", new_post, (data) => {
+        res.send(data);
+    });
+});
+
+app.post("/delete_post", (req, res) => {
+    const post_id = req.body._id;
+    db_mongo.do_query("REMOVE_NOTE", post_id, (data) => {
         res.sendStatus(200);
     });
-})
-
-app.get('/less1_jose', (req, res) => {
-    db_mongo.do_query("LESS_JOSE", null, (data) => {
-        res.sendStatus(200);
-    });
-})
-
-app.get('/plus1_ana', (req, res) => {
-    db_mongo.do_query("PLUS_ANA", null, (data) => {
-        res.sendStatus(200);
-    });
-})
-
-app.get('/less1_ana', (req, res) => {
-    db_mongo.do_query("LESS_ANA", null, (data) => {
-        res.sendStatus(200);
-    });
-})
-
-app.get('/pokemon', (req, res) => {
-    res.send(pokemon_list);
-})
+});
 
 const port = process.env.PORT || '5000';
 app.listen(port, () => console.log(`Server started on Port ${port}`));
